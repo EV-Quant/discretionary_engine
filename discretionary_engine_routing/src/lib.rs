@@ -48,8 +48,28 @@ pub async fn publish(cmd: Commands, redis_port: u16) -> color_eyre::eyre::Result
 	Ok(())
 }
 
+#[derive(Debug, derive_more::Deref, derive_more::DerefMut)]
+pub struct Executor {
+	#[deref]
+	#[deref_mut]
+	inner: AHashSet<ConceptualLimit>,
+}
+impl Component for Executor {
+	fn component_id(&self) -> ComponentId {
+		todo!()
+	}
+
+	fn state(&self) -> ComponentState {
+		todo!()
+	}
+
+	fn transition_state(&mut self, _trigger: ComponentTrigger) {
+		todo!()
+	}
+}
+
 pub struct RoutingHub {
-	assets: AHashMap<Asset, AHashSet<ConceptualLimit>>,
+	assets: AHashMap<Asset, Executor>,
 	streams: StreamMap<Asset, AssetStream>,
 	command_queue: Vec<Commands>,
 	state: ComponentState,
@@ -77,7 +97,7 @@ impl RoutingHub {
 
 					self.assets.entry(asset).or_insert_with(|| {
 						info!(asset = %asset, "Initializing asset");
-						AHashSet::default()
+						Executor { inner: AHashSet::default() }
 					});
 
 					let book = de_data::book(asset).await;
@@ -188,8 +208,8 @@ impl Component for RoutingHub {
 		self.state
 	}
 
-	fn transition_state(&mut self, trigger: ComponentTrigger) {
-		self.state.transition(trigger);
+	fn transition_state(&mut self, _trigger: ComponentTrigger) {
+		self.state.transition(_trigger);
 	}
 }
 
