@@ -8,6 +8,7 @@ resolver = "3"
 default-members = ["discretionary_engine"]
 
 [workspace.lints.rust]
+stable_features = "allow"
 unused_features = "allow"
 
 [workspace.lints.clippy]
@@ -16,6 +17,8 @@ len_zero = "allow"
 comparison_to_empty = "allow"
 undocumented_unsafe_blocks = "warn"
 tabs_in_doc_comments = "allow"
+if_not_else = "warn"
+integer_division = "warn"
 
 [workspace.lints.cargo]
 non_kebab_case_bins = "allow"
@@ -78,6 +81,9 @@ url = "2.5.8"
 ustr = "1.1.0"
 uuid = { version = "^1.22.0", features = ["serde", "v4", "v7", "v8"] }
 v_utils = { version = "2.17.8", features = ["full"] }
+
+[workspace.package]
+repository = "https://github.com/EV-Quant/discretionary_engine"
 
 [profile.dev]
 # codegen-backend = "cranelift"  # disabled due to aws-lc-rs incompatibility
