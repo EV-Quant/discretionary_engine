@@ -35,11 +35,12 @@
             };
           };
         };
+        oldestSupportedVersion = "nightly-2026-06-29";
         github = v_flakes.github {
           inherit pkgs pname rs;
           enable = true;
           excludeDirs = [ "libs/nautilus_trader" ];
-          lastSupportedVersion = "nightly-2025-10-12";
+          inherit oldestSupportedVersion;
           jobs.default = true;
           labels.extra = [
             # I think I should be grouping labels through color, right
@@ -47,7 +48,7 @@
             { name = "integrations"; color = "20603D"; description = "all things related to how we access the underlying "; }
           ];
         };
-        readme = v_flakes.readme-fw { inherit pkgs pname; defaults = true; lastSupportedVersion = "nightly-1.92"; rootDir = ./.; badges = [ "msrv" "crates_io" "docs_rs" "loc" "ci" ]; };
+        readme = v_flakes.readme-fw { inherit pkgs pname; defaults = true; inherit oldestSupportedVersion; rootDir = ./.; badges = [ "msrv" "crates_io" "docs_rs" "loc" "ci" ]; };
         combined = v_flakes.utils.combine { inherit rust; modules = [ rs github readme ]; };
 
       in
